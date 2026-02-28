@@ -1,0 +1,6 @@
+{
+  "name": "kttest",
+  "java": true,
+  "main": "testarea.KtTestArea",
+  "minGameVersion": "154"
+}
