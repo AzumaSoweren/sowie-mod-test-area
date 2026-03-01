@@ -130,6 +130,11 @@ class ItemStreamMemory(name: String) : DataStreamMemory(name) {
             )
         }
 
+        override fun configure(value: Any?) {
+            Call.tileConfig(Vars.player, this, value)
+            block.lastConfig = selectedItems
+        }
+
         override fun config() = selectedItems
 
         override fun write(write: Writes) {
