@@ -1,10 +1,10 @@
 package testarea
 
 import mindustry.mod.Mod
-import testarea.y2025.m12.internet.content.InternetTestBlocks
-import testarea.y2025.m12.internet.world.blocks.internet.NetworkGraph
-import testarea.y2025.m12.internet.world.blocks.logistics.DataStreamGraph
-import testarea.y2026.m02.ui.content.UITestBlocks
+import testarea.y2026.internet.content.InternetTestBlocks
+import testarea.y2026.internet.world.blocks.internet.NetworkGraph
+import testarea.y2026.internet.world.blocks.logistics.DataStreamGraph
+import testarea.y2026.ui.content.UITestBlocks
 
 //import testarea.y2025.m07.d02.content.TestBlocks
 
