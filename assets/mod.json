@@ -1,5 +1,6 @@
 {
   "name": "sorc-test",
+  "author": "AzumaSoweren",
   "java": true,
   "main": "testarea.SorcTest",
   "minGameVersion": "154",
