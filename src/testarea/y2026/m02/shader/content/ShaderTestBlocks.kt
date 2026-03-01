@@ -19,14 +19,14 @@ import mindustry.type.ItemStack
 import mindustry.world.Block
 import mindustry.world.draw.DrawDefault
 import mindustry.world.draw.DrawMulti
-import testarea.KtTestArea
+import testarea.SorcTest
 import testarea.sorc.load.ManageLoader
 import testarea.y2026.m02.shader.world.blocks.DrawerWall
 import testarea.y2026.m02.shader.world.draw.DrawCons
 import kotlin.math.absoluteValue
 
 object ShaderTestBlocks : ManageLoader<Block>() {
-    private val root = Vars.mods.getMod(KtTestArea::class.java).root.child("shaders")
+    private val root = Vars.mods.getMod(SorcTest::class.java).root.child("shaders")
     private const val DOWN_NAME = "dual_kawase_down"
     private const val UP_NAME = "dual_kawase_up"
     private val buffer = FrameBuffer(2, 2, false)

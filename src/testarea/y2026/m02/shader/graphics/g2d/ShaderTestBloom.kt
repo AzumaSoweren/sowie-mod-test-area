@@ -5,15 +5,14 @@ import arc.graphics.Gl
 import arc.graphics.gl.FrameBuffer
 import arc.graphics.gl.Shader
 import arc.math.Mathf
-import arc.util.Log
 import mindustry.Vars
 import mindustry.graphics.Shaders
-import testarea.KtTestArea
+import testarea.SorcTest
 
 //TODO
 class ShaderTestBloom {
     companion object {
-        private val root = Vars.mods.getMod(KtTestArea::class.java).root.child("shaders")
+        private val root = Vars.mods.getMod(SorcTest::class.java).root.child("shaders")
         private const val DOWN_NAME = "dual_kawase_down"
         private const val UP_NAME = "dual_kawase_up"
 

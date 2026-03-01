@@ -1,7 +1,7 @@
 {
-  "name": "kttest",
+  "name": "sorc-test",
   "java": true,
-  "main": "testarea.KtTestArea",
+  "main": "testarea.SorcTest",
   "minGameVersion": "154",
   "repo": "AzumaSoweren/sowie-mod-test-area"
 }

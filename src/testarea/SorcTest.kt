@@ -9,7 +9,7 @@ import testarea.y2026.m02.ui.content.UITestBlocks
 //import testarea.y2025.m07.d02.content.TestBlocks
 
 
-class KtTestArea : Mod() {
+class SorcTest : Mod() {
 //    var bloom: ShaderTestBloom? = null
 
     override fun loadContent() {
