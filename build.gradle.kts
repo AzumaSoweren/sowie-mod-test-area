@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 // file and path
 val homePath: String? = System.getenv("HOME")
+val sdkPath: String? = System.getenv("ANDROID_HOME")
 val modFilePath = "${homePath}/.local/share/Mindustry/mods"
 val mindustryPath = "${homePath}/Games/Mindustry/Mindustry.jar"
 
@@ -23,7 +24,7 @@ buildscript {
 }
 
 plugins {
-    kotlin("jvm") version "2.3.0"
+    kotlin("jvm") version "2.2.0"
 }
 
 sourceSets {
@@ -35,6 +36,12 @@ sourceSets {
 }
 
 version = "1.0"
+
+configurations.create("compileOnlyResolvable") {
+    isCanBeResolved = true
+    isCanBeConsumed = false
+    extendsFrom(configurations.compileOnly.get())
+}
 
 repositories {
     // Aliyun Maven
@@ -64,7 +71,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-// TODO add Android support
 tasks {
     withType<KotlinCompile>().configureEach {
         compilerOptions {
@@ -83,6 +89,24 @@ tasks {
         from("assets/") { include("**") }
     }
 
+    register<Jar>("jarR8") {
+        dependsOn("runR8")
+//        dependsOn(jar)
+
+        archiveFileName = "${rootProject.name}.jar"
+
+        from(
+            zipTree("build/libs/${rootProject.name}Android.jar"),
+            zipTree("build/libs/${rootProject.name}Desktop.jar"),
+        )
+
+        doLast {
+            delete("build/libs/${rootProject.name}Android.jar")
+        }
+
+//        from("assets/") { include("**") }
+    }
+
     register<DefaultTask>("pack") {
         dependsOn(jar)
 
@@ -95,20 +119,52 @@ tasks {
     }
 
     register<DefaultTask>("runMod") {
-        dependsOn(jar)
+        dependsOn("pack")
 
         // temp Desktop name
 
         doLast {
-            copy {
-                from(jar.get().archiveFile)
-                into(modFilePath)
-            }
-
             project.exec {
 //                commandLine("java", "-jar", mindustryPath)
                 commandLine("mindustry")
             }
         }
+    }
+
+    register<JavaExec>("runR8") {
+        dependsOn(jar)
+
+        val buildToolsVersion: String by project
+        val platformsVersion: String by project
+        mainClass.set("com.android.tools.r8.R8")
+        classpath = files("$sdkPath/build-tools/$buildToolsVersion/lib/d8.jar")
+
+        val dexOutput = file("build/libs/${rootProject.name}Android.jar")
+        val r8Rules = file("r8-rules.pro")
+        val archiveFile = jar.get().archiveFile.get().asFile
+        val compileOnly = configurations["compileOnlyResolvable"].files.toList()
+
+        val r8Args = mutableListOf(
+            "--release",
+            "--output", dexOutput.absolutePath,
+            "--pg-conf", r8Rules.absolutePath,
+        )
+
+        compileOnly.forEach { libFile ->
+            println("Adding compileOnly lib to R8: ${libFile.absolutePath}") // for debug
+            r8Args.add("--lib")
+            r8Args.add(libFile.absolutePath)
+        }
+
+        r8Args.add("--lib")
+        r8Args.add("$sdkPath/platforms/$platformsVersion/android.jar")
+        r8Args.add(archiveFile.absolutePath)
+
+        args = r8Args
+
+        inputs.file(r8Rules)
+        inputs.files(compileOnly)
+        inputs.file(archiveFile)
+        outputs.file(dexOutput)
     }
 }

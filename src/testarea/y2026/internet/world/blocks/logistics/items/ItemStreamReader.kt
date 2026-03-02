@@ -1,5 +1,6 @@
 package testarea.y2026.internet.world.blocks.logistics.items
 
+import arc.func.Prov
 import arc.scene.ui.layout.Table
 import arc.util.io.Reads
 import arc.util.io.Writes
@@ -24,6 +25,8 @@ open class ItemStreamReader(name: String) : DataStreamReader(name) {
             tile.sortItem = item
         }
         configClear<ItemStreamReaderBuild> { it.sortItem = null }
+
+        buildType = Prov(::ItemStreamReaderBuild)
     }
 
     //    var readSpeed = 0.12f

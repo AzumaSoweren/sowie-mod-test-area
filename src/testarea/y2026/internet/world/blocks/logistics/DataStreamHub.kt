@@ -1,5 +1,6 @@
 package testarea.y2026.internet.world.blocks.logistics
 
+import arc.func.Prov
 import arc.graphics.g2d.Draw
 import arc.graphics.g2d.Fill
 import mindustry.Vars
@@ -11,6 +12,8 @@ class DataStreamHub(name: String) : DataStreamBlock(name) {
     init {
         solid = false
         destructible = true
+
+        buildType = Prov(::DataStreamHubBuild)
     }
 
     override val blockType = Type.WIRE

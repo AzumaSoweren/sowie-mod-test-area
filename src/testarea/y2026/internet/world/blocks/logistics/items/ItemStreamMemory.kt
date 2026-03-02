@@ -1,5 +1,6 @@
 package testarea.y2026.internet.world.blocks.logistics.items
 
+import arc.func.Prov
 import arc.scene.ui.layout.Table
 import arc.struct.Seq
 import arc.util.Time
@@ -25,6 +26,8 @@ class ItemStreamMemory(name: String) : DataStreamMemory(name) {
             selections.copyInto(tile.selectedItems, startIndex = 0, endIndex = tile.selectedItems.size)
         }
         configClear<ItemStreamMemoryBuild> { it.selectedItems.fill(false) }
+
+        buildType = Prov(::ItemStreamMemoryBuild)
     }
 
     override fun setBars() {
@@ -78,6 +81,7 @@ class ItemStreamMemory(name: String) : DataStreamMemory(name) {
                     ) {
                         to = null
                         DataStreamGraph.eachMemoryWhile(this) { other ->
+                            if (other === this) return@eachMemoryWhile true
                             val found = other.acceptDataStream(this, data)
                             if (found) to = other
                             !found

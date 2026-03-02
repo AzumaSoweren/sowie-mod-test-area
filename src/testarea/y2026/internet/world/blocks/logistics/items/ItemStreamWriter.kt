@@ -1,5 +1,6 @@
 package testarea.y2026.internet.world.blocks.logistics.items
 
+import arc.func.Prov
 import mindustry.gen.Building
 import mindustry.type.Item
 import testarea.y2026.internet.type.logistics.ItemStream
@@ -11,6 +12,8 @@ class ItemStreamWriter(name: String) : DataStreamWriter(name) {
     init {
         hasItems = true
         itemCapacity = 0
+
+        buildType = Prov(::ItemStreamWriterBuild)
     }
 
 //    var baseWriteSpeed = 0.3f
